@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC操作 FAQシステム</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f6f3;
+    --surface: #ffffff;
+    --surface2: #f2f0ec;
+    --border: #e4e1d8;
+    --border2: #ccc9be;
+    --text: #1a1a18;
+    --text2: #5a5952;
+    --text3: #8c8a83;
+    --accent: #2563eb;
+    --accent-bg: #eff6ff;
+    --accent-border: #bfdbfe;
+    --tag-adobe: #ff4d00;
+    --tag-ps: #001e36;
+    --tag-ai: #ff9a00;
+    --tag-lr: #31a8ff;
+    --tag-tips: #059669;
+    --radius: 10px;
+    --radius-sm: 6px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 20px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .header-logo {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .header-logo-icon {
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .search-wrap {
+    flex: 1;
+    max-width: 480px;
+    margin-left: auto;
+    position: relative;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    font-size: 15px;
+    pointer-events: none;
+  }
+
+  #search {
+    width: 100%;
+    padding: 8px 12px 8px 36px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  #search:focus {
+    border-color: var(--accent);
+    background: var(--surface);
+  }
+
+  #search::placeholder { color: var(--text3); }
+
+  .header-count {
+    font-size: 13px;
+    color: var(--text3);
+    white-space: nowrap;
+  }
+
+  /* ── LAYOUT ── */
+  .layout {
+    display: flex;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 16px;
+    gap: 24px;
+    align-items: flex-start;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 82px;
+  }
+
+  .sidebar-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 8px;
+    padding: 0 8px;
+  }
+
+  .sidebar-nav {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .sidebar-nav li a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--text2);
+    font-size: 13.5px;
+    transition: background 0.1s, color 0.1s;
+    cursor: pointer;
+  }
+
+  .sidebar-nav li a:hover,
+  .sidebar-nav li a.active {
+    background: var(--surface);
+    color: var(--text);
+  }
+
+  .sidebar-nav li a.active {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .nav-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .nav-count {
+    margin-left: auto;
+    font-size: 11px;
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 1px 6px;
+    color: var(--text3);
+  }
+
+  /* ── ACCORDION SIDEBAR ── */
+  .nav-group { list-style: none; }
+
+  .nav-group-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: var(--radius-sm);
+    color: var(--text2);
+    font-size: 13.5px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.1s, color 0.1s;
+  }
+
+  .nav-group-header:hover { background: var(--surface); color: var(--text); }
+
+  .nav-group-header.open { color: var(--text); font-weight: 500; }
+
+  .nav-group-arrow {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--text3);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .nav-group-header.open .nav-group-arrow { transform: rotate(180deg); }
+
+  .nav-sub {
+    list-style: none;
+    display: none;
+    flex-direction: column;
+    gap: 1px;
+    margin: 2px 0 2px 16px;
+    border-left: 1.5px solid var(--border);
+    padding-left: 8px;
+  }
+
+  .nav-group-header.open + .nav-sub { display: flex; }
+
+  .nav-sub li a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 8px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--text3);
+    font-size: 12.5px;
+    transition: background 0.1s, color 0.1s;
+    cursor: pointer;
+  }
+
+  .nav-sub li a:hover { background: var(--surface); color: var(--text2); }
+  .nav-sub li a.active { color: var(--accent); font-weight: 500; background: var(--surface); }
+
+  /* ── MAIN ── */
+  .main {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* ── CATEGORY SECTION ── */
+  .category-section {
+    margin-bottom: 32px;
+  }
+
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .category-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .category-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .category-count {
+    font-size: 12px;
+    color: var(--text3);
+    margin-left: auto;
+  }
+
+  /* ── FAQ CARD ── */
+  .faq-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: border-color 0.15s;
+  }
+
+  .faq-card:hover { border-color: var(--border2); }
+
+  .faq-question {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .faq-q-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: var(--accent);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .faq-q-text {
+    flex: 1;
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .faq-toggle {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text3);
+    flex-shrink: 0;
+    font-size: 18px;
+    transition: transform 0.2s;
+    margin-top: 1px;
+  }
+
+  .faq-card.open .faq-toggle {
+    transform: rotate(180deg);
+  }
+
+  .faq-answer {
+    display: none;
+    border-top: 1px solid var(--border);
+    padding: 16px 16px 16px 50px;
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.75;
+  }
+
+  .faq-card.open .faq-answer { display: block; }
+
+  /* Answer content styles */
+  .faq-answer p { margin-bottom: 10px; }
+  .faq-answer p:last-child { margin-bottom: 0; }
+
+  .faq-answer ol,
+  .faq-answer ul {
+    padding-left: 20px;
+    margin-bottom: 10px;
+  }
+
+  .faq-answer li { margin-bottom: 4px; }
+
+  .faq-answer code {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 12.5px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    color: #d63384;
+  }
+
+  .faq-answer strong {
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .faq-answer .note {
+    background: var(--accent-bg);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 8px 12px;
+    font-size: 13px;
+    margin: 10px 0;
+    color: var(--text2);
+  }
+
+  .faq-answer table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 10px 0;
+  }
+
+  .faq-answer th {
+    background: var(--surface2);
+    padding: 7px 10px;
+    text-align: left;
+    font-weight: 700;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .faq-answer td {
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .faq-answer tr:nth-child(even) td { background: #fafaf8; }
+
+  .faq-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .faq-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  /* ── EMPTY STATE ── */
+  .empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text3);
+  }
+
+  .empty-icon { font-size: 40px; margin-bottom: 12px; }
+  .empty-text { font-size: 15px; }
+
+  /* ── SEARCH HIGHLIGHT ── */
+  mark {
+    background: #fef08a;
+    color: var(--text);
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+
+  /* ── MOBILE ── */
+  .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 6px 10px;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--text2);
+    cursor: pointer;
+    margin-left: auto;
+  }
+
+  @media (max-width: 700px) {
+    .header { gap: 10px; }
+    .header-count { display: none; }
+    .search-wrap { max-width: 100%; }
+    .mobile-menu-btn { display: flex; align-items: center; gap: 6px; }
+
+    .layout {
+      padding: 16px 12px;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .sidebar {
+      width: 100%;
+      position: static;
+      display: none;
+    }
+
+    .sidebar.open { display: block; }
+
+    .sidebar-nav {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .sidebar-nav li a {
+      padding: 5px 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    .faq-answer { padding-left: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-logo">
+    <div class="header-logo-icon">F</div>
+    PC操作 FAQ
+  </div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="search" placeholder="キーワードで検索...">
+  </div>
+  <span class="header-count" id="count"></span>
+  <button class="mobile-menu-btn" id="menuBtn">☰ カテゴリ</button>
+</header>
+
+<!-- LAYOUT -->
+<div class="layout">
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-title">カテゴリ</div>
+    <ul class="sidebar-nav" id="sidebarNav"></ul>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main" id="main"></main>
+</div>
+
+<script>
+const CATEGORIES = [
+  {
+    id: "photoshop-mask",
+    name: "Photoshop — マスク操作",
+    color: "#001e36",
+    items: [
+      {
+        q: "スポット修復ブラシでなぞると、クリックを外すと元に戻る",
+        a: `<p><strong>原因：</strong>マスクサムネイルが選択された状態で描画しています。</p>
+<ol>
+  <li>レイヤーパネルで<strong>画像サムネイル（左側）をクリック</strong>して選択する</li>
+  <li>選択されると画像サムネイルの周りに枠（ハイライト）が付く</li>
+  <li>その状態でスポット修復ブラシを使用する</li>
+</ol>
+<div class="note">💡 レイヤーパネルのサムネイルは「画像」と「マスク」の2つがある。マスクが選択された状態でブラシを使うと、マスクに描画されるため画像に変化がないように見える。</div>`,
+        tags: ["Photoshop", "マスク", "ブラシ"]
+      },
+      {
+        q: "背景削除を元に戻したい",
+        a: `<table>
+  <tr><th>状況</th><th>解決策</th></tr>
+  <tr><td>作業中（履歴が残っている）</td><td><code>Ctrl + Z</code> を複数回、または<strong>履歴パネル</strong>から該当ステップをクリック</td></tr>
+  <tr><td>マスクで削除した場合</td><td>マスクサムネイルを右クリック →「<strong>レイヤーマスクを削除</strong>」</td></tr>
+  <tr><td>ピクセルを直接消した場合</td><td>履歴から戻すしかない（保存済みなら元ファイルが必要）</td></tr>
+</table>`,
+        tags: ["Photoshop", "マスク", "Ctrl+Z"]
+      }
+    ]
+  },
+  {
+    id: "photoshop-edit",
+    name: "Photoshop — 画像修正",
+    color: "#1e3a5f",
+    items: [
+      {
+        q: "赤い汚れや鉛筆の落書きを消したい",
+        a: `<p><strong>方法①：スポット修復ブラシツール（最も手軽）</strong></p>
+<ol>
+  <li><code>J</code> キーでスポット修復ブラシツールを選択</li>
+  <li>「コンテンツに応じる」にチェックが入っていることを確認</li>
+  <li>汚れの上をなぞる</li>
+</ol>
+<div class="note">💡 白っぽい均一な背景には特に効果的。</div>
+<p><strong>方法②：コピースタンプツール（精度が高い）</strong></p>
+<ol>
+  <li><code>S</code> キーで選択</li>
+  <li><code>Alt</code> キーを押しながらきれいな部分をクリックしてサンプリング</li>
+  <li>汚れの上をクリック／なぞって塗りつぶす</li>
+</ol>
+<p><strong>方法③：コンテンツに応じた塗りつぶし（広い範囲向け）</strong></p>
+<ol>
+  <li>汚れをなげなわツールなどで選択</li>
+  <li><strong>編集 → コンテンツに応じた塗りつぶし</strong></li>
+  <li>プレビューを見ながら調整して「OK」</li>
+</ol>`,
+        tags: ["Photoshop", "修正", "スポット修復"]
+      }
+    ]
+  },
+  {
+    id: "photoshop-color",
+    name: "Photoshop — 色調補正",
+    color: "#374151",
+    items: [
+      {
+        q: "写真の左右の明暗差を均一にしたい（撮影時の照明ムラ）",
+        a: `<p><strong>方法①：グラデーションマスク＋トーンカーブ（おすすめ）</strong></p>
+<ol>
+  <li>レイヤーパネル下部の「新規調整レイヤー」→「<strong>トーンカーブ</strong>」を追加</li>
+  <li>暗い側が明るくなるようにカーブを持ち上げる</li>
+  <li>調整レイヤーのマスクサムネイルをクリック</li>
+  <li>グラデーションツール（<code>G</code>）で「明るくしたい側（白）→ 反対側（黒）」のグラデーションをマスクに描く</li>
+</ol>
+<p><strong>方法②：Camera Rawフィルター（視覚的に調整しやすい）</strong></p>
+<ol>
+  <li>レイヤーを右クリック →「<strong>スマートオブジェクトに変換</strong>」</li>
+  <li><strong>フィルター → Camera Raw フィルター</strong></li>
+  <li>「マスク」ツール →「グラデーション」を選択</li>
+  <li>補正したい側にグラデーションをかけて露光量を調整</li>
+</ol>`,
+        tags: ["Photoshop", "色調補正", "明暗"]
+      }
+    ]
+  },
+  {
+    id: "photoshop-blur",
+    name: "Photoshop — フィルター（ぼかし）",
+    color: "#4f46e5",
+    items: [
+      {
+        q: "画像全体をぼかしたい",
+        a: `<ol>
+  <li><strong>フィルター → ぼかし → ぼかし（ガウス）...</strong> を選択</li>
+  <li>半径の数値を調整してOK</li>
+</ol>
+<table>
+  <tr><th>効果</th><th>半径の目安</th></tr>
+  <tr><td>少しぼかす</td><td>1〜3px</td></tr>
+  <tr><td>そこそこぼかす</td><td>5〜10px</td></tr>
+  <tr><td>強くぼかす</td><td>15px以上</td></tr>
+</table>`,
+        tags: ["Photoshop", "ぼかし", "フィルター"]
+      },
+      {
+        q: "ぼかしのダイアログ（半径設定ウィンドウ）が表示されない",
+        a: `<p><strong>原因：</strong>「フィルター」メニュー直下の「ぼかし」または「ぼかし（強）」を選択しています。これらはダイアログなしで即時適用されます。</p>
+<div class="note">💡 <strong>フィルター → ぼかし → ぼかし（ガウス）...</strong> を選択する（末尾に「...」がついているものを選ぶ）</div>`,
+        tags: ["Photoshop", "ぼかし", "ダイアログ"]
+      },
+      {
+        q: "ぼかし（ガウス）を適用できるが画像に変化がない",
+        a: `<p>以下の点を確認してください：</p>
+<ol>
+  <li><strong>調整レイヤーが選択されている</strong> → レイヤーパネルで画像レイヤー（「レイヤー1」等）をクリックしてから適用する</li>
+  <li><strong>半径が小さすぎる</strong> → 20〜30pxなど大きめにして確認する</li>
+  <li><strong>スマートオブジェクトになっている</strong> → レイヤーサムネイルに📄マークがある場合は右クリック →「<strong>レイヤーをラスタライズ</strong>」してから適用する</li>
+</ol>`,
+        tags: ["Photoshop", "ぼかし", "効果なし"]
+      },
+      {
+        q: "フィルターメニュー直下の「ぼかし（Alt+Ctrl+F）」とは何か",
+        a: `<p>直前に使ったフィルターを<strong>再適用するショートカット</strong>です。</p>
+<p>最初に「ぼかし（ガウス）」を一度使った後は、このショートカットでも同じ設定で再適用できます。</p>`,
+        tags: ["Photoshop", "ぼかし", "ショートカット"]
+      }
+    ]
+  },
+  {
+    id: "illustrator-pattern",
+    name: "Illustrator — パターン作成",
+    color: "#b45309",
+    items: [
+      {
+        q: "テクスチャ画像をパターンとして登録・使用したい",
+        a: `<ol>
+  <li><strong>ファイル → 配置</strong> で画像をアートボードに配置</li>
+  <li>画像を選択した状態でオプションバーの「<strong>埋め込み</strong>」をクリック</li>
+  <li><strong>オブジェクト → パターン → 作成</strong></li>
+  <li>パターンオプションで「タイルの種類」「幅・高さ」を調整</li>
+  <li>上部の「<strong>完了</strong>」をクリックしてスウォッチに登録</li>
+  <li>図形を描いてスウォッチパネルのパターンをクリックで塗りに適用</li>
+</ol>`,
+        tags: ["Illustrator", "パターン", "スウォッチ"]
+      },
+      {
+        q: "テキストエリアにある青い点（中央ハンドル）は移動できるか",
+        a: `<p><strong>できます。</strong>選択ツール（<code>V</code>）でドラッグすることでテキストエリアのサイズを変更できます。</p>
+<table>
+  <tr><th>ハンドルの位置</th><th>操作内容</th></tr>
+  <tr><td>上下の中央ハンドル</td><td>テキストエリアの高さを変更</td></tr>
+  <tr><td>左右の中央ハンドル</td><td>テキストエリアの幅を変更</td></tr>
+</table>
+<div class="note">💡 青い点が小さな四角形（□）の場合は「アウトポート」で、テキストがあふれているサイン。テキストエリアを広げることで解決する。</div>`,
+        tags: ["Illustrator", "テキスト", "ハンドル"]
+      }
+    ]
+  },
+  {
+    id: "illustrator-link",
+    name: "Illustrator — リンク・埋め込み",
+    color: "#7c3aed",
+    items: [
+      {
+        q: "「ドキュメントにはリンクされたローカルアセットが含まれています」と表示される",
+        a: `<p><strong>原因：</strong>ドキュメント内にリンク画像（外部ファイル参照）が含まれています。</p>
+<p><strong>確認方法：</strong></p>
+<ol>
+  <li><strong>ウィンドウ → リンク</strong> でリンクパネルを開く</li>
+  <li>一覧のファイル名をクリック →「選択範囲に移動」アイコンで該当オブジェクトにジャンプ</li>
+</ol>
+<table>
+  <tr><th>目的</th><th>対処法</th></tr>
+  <tr><td>Photoshopでの編集を継続したい</td><td>リンクのまま「<strong>再表示しない</strong>」にチェックしてOK</td></tr>
+  <tr><td>編集が完全に終わった</td><td>リンクパネルで対象を選択 → パネルメニュー →「<strong>画像を埋め込み</strong>」</td></tr>
+</table>`,
+        tags: ["Illustrator", "リンク", "埋め込み"]
+      },
+      {
+        q: "埋め込みにするとPhotoshopでの編集は反映されないのか",
+        a: `<p>はい、<strong>反映されません。</strong></p>
+<table>
+  <tr><th></th><th>リンク</th><th>埋め込み</th></tr>
+  <tr><td>Photoshop編集後の反映</td><td><strong>自動で反映される</strong></td><td>反映されない</td></tr>
+  <tr><td>外部ファイルへの依存</td><td>あり</td><td>なし</td></tr>
+  <tr><td>ファイルサイズ</td><td>軽い</td><td>重くなる</td></tr>
+</table>
+<div class="note">💡 運用のコツ：Photoshopでの編集が残っている間はリンクのまま使用し、編集が完全に終わったら埋め込みに変換する。</div>`,
+        tags: ["Illustrator", "リンク", "埋め込み", "比較"]
+      }
+    ]
+  },
+  {
+    id: "adobe-sync",
+    name: "Adobe連携 — スマートフォン同期",
+    color: "#be123c",
+    items: [
+      {
+        q: "LightroomモバイルでPC版に写真が同期されない",
+        a: `<p>以下の点を確認してください：</p>
+<ol>
+  <li><strong>モバイル版の自動追加がオン</strong> → 左上☰メニュー →「クラウド設定」または「自動追加」をオン</li>
+  <li><strong>同じAdobe IDでサインイン</strong> → モバイル・PC両方でアカウントを確認</li>
+  <li><strong>Wi-Fi・通信環境</strong> → 「Wi-Fi接続時のみ同期」設定になっている場合あり</li>
+  <li><strong>PC版のクラウド同期がオン</strong> → PC版右上の雲アイコンを確認。「同期を一時停止中」なら再開する</li>
+</ol>`,
+        tags: ["Lightroom", "同期", "スマホ"]
+      },
+      {
+        q: "スマホで撮影した写真をすぐPCのPhotoshop/Illustratorで使いたい",
+        a: `<table>
+  <tr><th>方法</th><th>特徴</th></tr>
+  <tr><td><strong>Googleドライブ（自動バックアップ）</strong></td><td>Androidと親和性が高く、PCデスクトップアプリと連携すれば自動同期</td></tr>
+  <tr><td><strong>Lightroomモバイル</strong></td><td>時差はあるが利用可能</td></tr>
+  <tr><td><strong>USBケーブル直接転送</strong></td><td>最速・最確実。頻度が高い場合に安定</td></tr>
+</table>
+<div class="note">💡 推奨フロー：スマホで撮影 → Googleドライブに自動バックアップ → PCのGoogleドライブフォルダからPhotoshop/Illustratorで直接開く</div>`,
+        tags: ["Lightroom", "スマホ", "Googleドライブ"]
+      },
+      {
+        q: "Creative Cloudモバイルアプリは使えるか",
+        a: `<p><strong>いいえ。</strong> Creative Cloudモバイルアプリは2026年3月2日に提供終了済みです。</p>
+<p>代替としてモバイルブラウザから <code>https://www.adobe.com/home</code> にアクセスすることで一部ワークフローは継続可能です。</p>`,
+        tags: ["Creative Cloud", "モバイル", "終了"]
+      }
+    ]
+  },
+  {
+    id: "windows-icon",
+    name: "Windows — アイコン作成・変更",
+    color: "#0078d4",
+    items: [
+      {
+        q: "Illustratorで作ったデザインをWindowsのショートカットアイコンにしたい（全体の流れ）",
+        a: `<p>大きく3ステップで完了します。</p>
+<ol>
+  <li><strong>Illustratorでアイコンをデザインし、PNGで書き出す</strong></li>
+  <li><strong>PNG → ICO形式に変換する</strong>（Windowsアイコンに必要な形式）</li>
+  <li><strong>ショートカットのプロパティからICOファイルを適用する</strong></li>
+</ol>
+<div class="note">💡 各ステップの詳細は、それぞれの個別Q&Aを参照してください。</div>`,
+        tags: ["Windows", "ショートカット", "アイコン変更"]
+      },
+      {
+        q: "Illustratorでアイコン用のPNGを書き出すには？",
+        a: `<ol>
+  <li>Illustratorで<strong>新規ドキュメント</strong>を作成
+    <ul>
+      <li>サイズ：<strong>256×256px</strong> 推奨</li>
+      <li>カラーモード：<strong>RGB</strong></li>
+    </ul>
+  </li>
+  <li>アイコンをデザインする</li>
+  <li><strong>ファイル → 書き出し → スクリーン用に書き出し</strong> を選択</li>
+  <li>形式を <strong>PNG</strong> にして書き出す</li>
+</ol>`,
+        tags: ["Illustrator", "PNG", "書き出し", "アイコン"]
+      },
+      {
+        q: "PNGをICO形式に変換するには？（無料ツール）",
+        a: `<p>Windowsのショートカットアイコンには<strong>ICO形式</strong>が必要なため、変換が必要です。</p>
+<ol>
+  <li>ブラウザで以下のいずれかのサイトにアクセスする
+    <ul>
+      <li><code>convertio.co/ja/png-ico/</code></li>
+      <li><code>favicon.io</code></li>
+    </ul>
+  </li>
+  <li>書き出したPNGファイルをアップロード</li>
+  <li>ICO形式に変換してダウンロード</li>
+</ol>
+<div class="note">💡 どちらも無料で使えるオンラインツールです。アカウント登録不要。</div>`,
+        tags: ["ICO", "PNG", "変換", "Windows"]
+      },
+      {
+        q: "ショートカットアイコンをオリジナルのICOファイルに変更するには？",
+        a: `<ol>
+  <li>デスクトップのショートカットを<strong>右クリック → プロパティ</strong></li>
+  <li>「<strong>アイコンの変更</strong>」をクリック</li>
+  <li>「<strong>参照</strong>」から変換したICOファイルを選択</li>
+  <li><strong>OK → 適用</strong> をクリック</li>
+</ol>
+<div class="note">💡 アイコンがすぐに反映されない場合は、デスクトップを右クリック →「表示」→「更新」またはPC再起動で反映される。</div>`,
+        tags: ["Windows", "ショートカット", "アイコン変更"]
+      }
+    ]
+  },
+  {
+    id: "github-pages",
+    name: "GitHub Pages — Web公開・共有",
+    color: "#1f2328",
+    items: [
+      {
+        q: "作ったHTMLファイルをURLで友達に共有したい",
+        a: `<p>GitHub Pagesを使うと、HTMLファイルを無料でWeb公開してURLで共有できます。大きく4ステップです。</p>
+<ol>
+  <li><strong>GitHubアカウントを作成する</strong>（無料）</li>
+  <li><strong>リポジトリ（フォルダ）を作成する</strong></li>
+  <li><strong>HTMLファイルをアップロードし、index.htmlにリネームする</strong></li>
+  <li><strong>GitHub Pagesを有効にする</strong></li>
+</ol>
+<div class="note">💡 各ステップの詳細は、それぞれの個別Q&Aを参照してください。</div>`,
+        tags: ["GitHub", "公開", "共有", "URL"]
+      },
+      {
+        q: "GitHubのリポジトリ作成時の注意点は？",
+        a: `<table>
+  <tr><th>項目</th><th>設定内容</th></tr>
+  <tr><td>リポジトリ名</td><td>任意（例：<code>my-faq</code>）</td></tr>
+  <tr><td><strong>表示設定</strong></td><td><strong>「パブリック」を選択（重要！）</strong></td></tr>
+  <tr><td>READMEを追加</td><td>オフのまま</td></tr>
+  <tr><td>.gitignore / ライセンス</td><td>なしのまま</td></tr>
+</table>
+<div class="note">⚠️ 「プライベート」のままだと友達がURLでアクセスできない。必ず「パブリック」を選ぶこと。</div>`,
+        tags: ["GitHub", "リポジトリ", "パブリック"]
+      },
+      {
+        q: "HTMLファイルをGitHubにアップロードする手順は？",
+        a: `<ol>
+  <li>リポジトリのトップページで「<strong>既存のファイルをアップロードして</strong>」をクリック</li>
+  <li><code>faq_system.html</code> をドラッグ＆ドロップ</li>
+  <li>「<strong>変更をコミットする</strong>」ボタンをクリック → ダイアログもそのまま「変更をコミットする」</li>
+</ol>
+<p><strong>ファイル名を index.html に変更する：</strong></p>
+<ol>
+  <li>ファイル一覧で <code>faq_system.html</code> をクリック</li>
+  <li>右上の<strong>鉛筆マーク（編集ボタン）</strong>をクリック</li>
+  <li>画面上部のファイル名欄を <code>index.html</code> に書き換える</li>
+  <li>「<strong>変更をコミットする</strong>」をクリック</li>
+</ol>
+<div class="note">💡 アップロード画面ではファイル名の変更ができない。コミット後に鉛筆マークから変更する。</div>`,
+        tags: ["GitHub", "アップロード", "index.html"]
+      },
+      {
+        q: "GitHub Pagesを有効にする手順は？",
+        a: `<ol>
+  <li>リポジトリ上部の「<strong>設定（Settings）</strong>」タブをクリック</li>
+  <li>左側メニューの「<strong>ページ（Pages）</strong>」をクリック</li>
+  <li>「ビルドとデプロイ」→「支店」の「<strong>なし</strong>」ボタンをクリック</li>
+  <li><strong>「main」</strong>を選択</li>
+  <li>「<strong>保存</strong>」ボタンをクリック</li>
+</ol>
+<div class="note">💡 「GitHub PagesのソースコードがSavedされました。」と表示されれば設定完了。</div>`,
+        tags: ["GitHub Pages", "有効化", "設定"]
+      },
+      {
+        q: "公開後のURLはどこで確認できるか？",
+        a: `<p><strong>方法①：設定画面で確認</strong></p>
+<p>1〜3分後に設定（Pages）画面を <code>F5</code> で更新すると、以下のように表示される。</p>
+<p>「✅ サイトが公開されています」のリンクをクリックまたはコピーする。</p>
+<p><strong>方法②：コードタブで確認</strong></p>
+<p>リポジトリの「コード」タブ右側に「<strong>Deployments</strong>」欄が表示され、そこにもURLが載っている。</p>
+<p><strong>URLの法則：</strong></p>
+<p><code>https://[GitHubユーザー名].github.io/[リポジトリ名]/</code></p>`,
+        tags: ["GitHub Pages", "URL", "確認"]
+      },
+      {
+        q: "FAQシステムを更新したとき、公開URLに反映する方法は？",
+        a: `<ol>
+  <li>リポジトリの「コード」タブで <code>index.html</code> をクリック</li>
+  <li>右上の<strong>鉛筆マーク</strong>をクリック</li>
+  <li>右上の「<strong>...</strong>」→「<strong>ファイルを置き換える</strong>」で新しいHTMLをアップロード</li>
+  <li>「<strong>変更をコミットする</strong>」をクリック</li>
+</ol>
+<div class="note">💡 コミット後、数分で自動的にURLに反映される。</div>`,
+        tags: ["GitHub", "更新", "反映"]
+      }
+    ]
+  }
+];
+const LAST_UPDATED = "2026-03-28";
+let activeCategory = "all";
+let searchQuery = "";
+
+function escapeHtml(str) {
+  return str.replace(/[&<>"']/g, s => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[s]));
+}
+
+function highlight(text, query) {
+  if (!query) return text;
+  const re = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+function buildSidebar() {
+  const nav = document.getElementById('sidebarNav');
+  const allCount = CATEGORIES.reduce((n, c) => n + c.items.length, 0);
+
+  // Group categories by prefix (before ' — ')
+  const groups = {};
+  CATEGORIES.forEach(c => {
+    const prefix = c.name.split(' — ')[0];
+    if (!groups[prefix]) groups[prefix] = { color: c.color, cats: [] };
+    groups[prefix].cats.push(c);
+  });
+
+  let html = `<li><a href="#" data-id="all" class="active">
+    <span class="nav-dot" style="background:#6b7280"></span>すべて
+    <span class="nav-count">${allCount}</span>
+  </a></li>`;
+
+  Object.entries(groups).forEach(([prefix, group]) => {
+    const groupCount = group.cats.reduce((n, c) => n + c.items.length, 0);
+    if (group.cats.length === 1) {
+      // Single category: flat item
+      const c = group.cats[0];
+      html += `<li><a href="#" data-id="${c.id}">
+        <span class="nav-dot" style="background:${c.color}"></span>${prefix}
+        <span class="nav-count">${groupCount}</span>
+      </a></li>`;
+    } else {
+      // Multiple categories: accordion group
+      html += `<li class="nav-group">
+        <div class="nav-group-header" data-group="${prefix}">
+          <span class="nav-dot" style="background:${group.color}"></span>${prefix}
+          <span class="nav-count">${groupCount}</span>
+          <span class="nav-group-arrow">⌄</span>
+        </div>
+        <ul class="nav-sub">
+          ${group.cats.map(c => {
+            const sub = c.name.split(' — ')[1] || c.name;
+            return `<li><a href="#" data-id="${c.id}">${sub}<span class="nav-count">${c.items.length}</span></a></li>`;
+          }).join('')}
+        </ul>
+      </li>`;
+    }
+  });
+
+  nav.innerHTML = html;
+
+  // Flat link clicks
+  nav.querySelectorAll('a[data-id]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      activeCategory = a.dataset.id;
+      nav.querySelectorAll('a[data-id]').forEach(x => x.classList.remove('active'));
+      a.classList.add('active');
+      renderMain();
+      document.getElementById('sidebar').classList.remove('open');
+    });
+  });
+
+  // Group header toggle
+  nav.querySelectorAll('.nav-group-header').forEach(h => {
+    h.addEventListener('click', () => {
+      h.classList.toggle('open');
+    });
+  });
+}
+
+function renderMain() {
+  const main = document.getElementById('main');
+  const q = searchQuery.trim().toLowerCase();
+
+  let html = '';
+  let totalShown = 0;
+
+  const cats = activeCategory === 'all' ? CATEGORIES : CATEGORIES.filter(c => c.id === activeCategory);
+
+  cats.forEach(cat => {
+    const items = cat.items.filter(item => {
+      if (!q) return true;
+      return item.q.toLowerCase().includes(q) ||
+             item.tags.some(t => t.toLowerCase().includes(q)) ||
+             item.a.toLowerCase().includes(q);
+    });
+
+    if (items.length === 0) return;
+    totalShown += items.length;
+
+    html += `<div class="category-section" id="cat-${cat.id}">
+      <div class="category-header">
+        <span class="category-dot" style="background:${cat.color}"></span>
+        <span class="category-name">${escapeHtml(cat.name)}</span>
+        <span class="category-count">${items.length}件</span>
+      </div>`;
+
+    items.forEach((item, i) => {
+      const qText = q ? highlight(escapeHtml(item.q), q) : escapeHtml(item.q);
+      const tags = item.tags.map(t => `<span class="faq-tag" style="background:#f3f4f6;color:#374151;border:1px solid #e5e7eb">${t}</span>`).join('');
+
+      html += `<div class="faq-card" id="faq-${cat.id}-${i}">
+        <div class="faq-question">
+          <div class="faq-q-icon">Q</div>
+          <div class="faq-q-text">${qText}</div>
+          <div class="faq-toggle">⌄</div>
+        </div>
+        <div class="faq-answer">
+          ${item.a}
+          <div class="faq-tags">${tags}</div>
+        </div>
+      </div>`;
+    });
+
+    html += '</div>';
+  });
+
+  if (totalShown === 0) {
+    html = `<div class="empty">
+      <div class="empty-icon">🔍</div>
+      <div class="empty-text">「${escapeHtml(q)}」に一致するFAQが見つかりませんでした</div>
+    </div>`;
+  }
+
+  main.innerHTML = html;
+
+  // Count
+  const allCount = CATEGORIES.reduce((n, c) => n + c.items.length, 0);
+  document.getElementById('count').textContent = q ? `${totalShown}件 / ${allCount}件` : `全${allCount}件`;
+
+  // Toggle
+  main.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', () => {
+      q.closest('.faq-card').classList.toggle('open');
+    });
+  });
+
+  // Auto-open if searching
+  if (searchQuery.trim()) {
+    main.querySelectorAll('.faq-card').forEach(c => c.classList.add('open'));
+  }
+}
+
+// Search
+let searchTimer;
+document.getElementById('search').addEventListener('input', e => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    searchQuery = e.target.value;
+    renderMain();
+  }, 180);
+});
+
+// Mobile menu
+document.getElementById('menuBtn').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+buildSidebar();
+renderMain();
+</script>
+</body>
+</html>
