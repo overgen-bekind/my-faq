@@ -18,11 +18,6 @@
     --accent: #2563eb;
     --accent-bg: #eff6ff;
     --accent-border: #bfdbfe;
-    --tag-adobe: #ff4d00;
-    --tag-ps: #001e36;
-    --tag-ai: #ff9a00;
-    --tag-lr: #31a8ff;
-    --tag-tips: #059669;
     --radius: 10px;
     --radius-sm: 6px;
     --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
@@ -119,6 +114,24 @@
     white-space: nowrap;
   }
 
+  /* ── LAST UPDATED ── */
+  .header-updated {
+    font-size: 12px;
+    color: var(--text3);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .header-updated-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+    flex-shrink: 0;
+  }
+
   /* ── LAYOUT ── */
   .layout {
     display: flex;
@@ -211,7 +224,6 @@
   }
 
   .nav-group-header:hover { background: var(--surface); color: var(--text); }
-
   .nav-group-header.open { color: var(--text); font-weight: 500; }
 
   .nav-group-arrow {
@@ -253,15 +265,10 @@
   .nav-sub li a.active { color: var(--accent); font-weight: 500; background: var(--surface); }
 
   /* ── MAIN ── */
-  .main {
-    flex: 1;
-    min-width: 0;
-  }
+  .main { flex: 1; min-width: 0; }
 
   /* ── CATEGORY SECTION ── */
-  .category-section {
-    margin-bottom: 32px;
-  }
+  .category-section { margin-bottom: 32px; }
 
   .category-header {
     display: flex;
@@ -347,9 +354,7 @@
     margin-top: 1px;
   }
 
-  .faq-card.open .faq-toggle {
-    transform: rotate(180deg);
-  }
+  .faq-card.open .faq-toggle { transform: rotate(180deg); }
 
   .faq-answer {
     display: none;
@@ -362,7 +367,6 @@
 
   .faq-card.open .faq-answer { display: block; }
 
-  /* Answer content styles */
   .faq-answer p { margin-bottom: 10px; }
   .faq-answer p:last-child { margin-bottom: 0; }
 
@@ -384,10 +388,7 @@
     color: #d63384;
   }
 
-  .faq-answer strong {
-    font-weight: 700;
-    color: var(--text);
-  }
+  .faq-answer strong { font-weight: 700; color: var(--text); }
 
   .faq-answer .note {
     background: var(--accent-bg);
@@ -472,6 +473,7 @@
   @media (max-width: 700px) {
     .header { gap: 10px; }
     .header-count { display: none; }
+    .header-updated { display: none; }
     .search-wrap { max-width: 100%; }
     .mobile-menu-btn { display: flex; align-items: center; gap: 6px; }
 
@@ -517,19 +519,20 @@
     <span class="search-icon">🔍</span>
     <input type="text" id="search" placeholder="キーワードで検索...">
   </div>
+  <span class="header-updated" id="lastUpdated">
+    <span class="header-updated-dot"></span>
+    <span id="lastUpdatedText"></span>
+  </span>
   <span class="header-count" id="count"></span>
   <button class="mobile-menu-btn" id="menuBtn">☰ カテゴリ</button>
 </header>
 
 <!-- LAYOUT -->
 <div class="layout">
-  <!-- SIDEBAR -->
   <nav class="sidebar" id="sidebar">
     <div class="sidebar-title">カテゴリ</div>
     <ul class="sidebar-nav" id="sidebarNav"></ul>
   </nav>
-
-  <!-- MAIN -->
   <main class="main" id="main"></main>
 </div>
 
@@ -774,7 +777,7 @@ const CATEGORIES = [
   <li><strong>ショートカットのプロパティからICOファイルを適用する</strong></li>
 </ol>
 <div class="note">💡 各ステップの詳細は、それぞれの個別Q&Aを参照してください。</div>`,
-        tags: ["Windows", "ショートカット", "アイコン変更"]
+        tags: ["Windows", "Illustrator", "アイコン", "ICO"]
       },
       {
         q: "Illustratorでアイコン用のPNGを書き出すには？",
@@ -892,23 +895,26 @@ const CATEGORIES = [
       {
         q: "FAQシステムを更新したとき、公開URLに反映する方法は？",
         a: `<ol>
-  <li>リポジトリの「コード」タブで <code>index.html</code> をクリック</li>
-  <li>右上の<strong>鉛筆マーク</strong>をクリック</li>
-  <li>右上の「<strong>...</strong>」→「<strong>ファイルを置き換える</strong>」で新しいHTMLをアップロード</li>
-  <li>「<strong>変更をコミットする</strong>」をクリック</li>
+  <li>VSCodeで最新の <code>faq_system.html</code> を開き、<strong>全コードをコピー</strong>（<code>Ctrl + A</code> → <code>Ctrl + C</code>）</li>
+  <li>GitHubのリポジトリで <code>index.html</code> をクリック</li>
+  <li>右上の<strong>鉛筆マーク（編集ボタン）</strong>をクリック</li>
+  <li>エディタ内のコードを<strong>全選択して削除</strong>（<code>Ctrl + A</code> → <code>Delete</code>）</li>
+  <li>コピーしたコードを<strong>貼り付け</strong>（<code>Ctrl + V</code>）</li>
+  <li>下にスクロールして「<strong>変更をコミットする</strong>」をクリック</li>
 </ol>
 <div class="note">💡 コミット後、数分で自動的にURLに反映される。</div>`,
-        tags: ["GitHub", "更新", "反映"]
+        tags: ["GitHub", "更新", "反映", "VSCode"]
       }
     ]
   }
 ];
+
 const LAST_UPDATED = "2026-03-28";
 let activeCategory = "all";
 let searchQuery = "";
 
 function escapeHtml(str) {
-  return str.replace(/[&<>"']/g, s => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[s]));
+  return str.replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
 }
 
 function highlight(text, query) {
@@ -921,10 +927,9 @@ function buildSidebar() {
   const nav = document.getElementById('sidebarNav');
   const allCount = CATEGORIES.reduce((n, c) => n + c.items.length, 0);
 
-  // Group categories by prefix (before ' — ')
   const groups = {};
   CATEGORIES.forEach(c => {
-    const prefix = c.name.split(' — ')[0];
+    const prefix = c.name.split(' \u2014 ')[0];
     if (!groups[prefix]) groups[prefix] = { color: c.color, cats: [] };
     groups[prefix].cats.push(c);
   });
@@ -937,23 +942,21 @@ function buildSidebar() {
   Object.entries(groups).forEach(([prefix, group]) => {
     const groupCount = group.cats.reduce((n, c) => n + c.items.length, 0);
     if (group.cats.length === 1) {
-      // Single category: flat item
       const c = group.cats[0];
       html += `<li><a href="#" data-id="${c.id}">
         <span class="nav-dot" style="background:${c.color}"></span>${prefix}
         <span class="nav-count">${groupCount}</span>
       </a></li>`;
     } else {
-      // Multiple categories: accordion group
       html += `<li class="nav-group">
         <div class="nav-group-header" data-group="${prefix}">
           <span class="nav-dot" style="background:${group.color}"></span>${prefix}
           <span class="nav-count">${groupCount}</span>
-          <span class="nav-group-arrow">⌄</span>
+          <span class="nav-group-arrow">\u2304</span>
         </div>
         <ul class="nav-sub">
           ${group.cats.map(c => {
-            const sub = c.name.split(' — ')[1] || c.name;
+            const sub = c.name.split(' \u2014 ')[1] || c.name;
             return `<li><a href="#" data-id="${c.id}">${sub}<span class="nav-count">${c.items.length}</span></a></li>`;
           }).join('')}
         </ul>
@@ -963,7 +966,8 @@ function buildSidebar() {
 
   nav.innerHTML = html;
 
-  // Flat link clicks
+  document.getElementById('lastUpdatedText').textContent = '最終更新：' + LAST_UPDATED;
+
   nav.querySelectorAll('a[data-id]').forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
@@ -975,18 +979,14 @@ function buildSidebar() {
     });
   });
 
-  // Group header toggle
   nav.querySelectorAll('.nav-group-header').forEach(h => {
-    h.addEventListener('click', () => {
-      h.classList.toggle('open');
-    });
+    h.addEventListener('click', () => { h.classList.toggle('open'); });
   });
 }
 
 function renderMain() {
   const main = document.getElementById('main');
   const q = searchQuery.trim().toLowerCase();
-
   let html = '';
   let totalShown = 0;
 
@@ -1013,12 +1013,11 @@ function renderMain() {
     items.forEach((item, i) => {
       const qText = q ? highlight(escapeHtml(item.q), q) : escapeHtml(item.q);
       const tags = item.tags.map(t => `<span class="faq-tag" style="background:#f3f4f6;color:#374151;border:1px solid #e5e7eb">${t}</span>`).join('');
-
       html += `<div class="faq-card" id="faq-${cat.id}-${i}">
         <div class="faq-question">
           <div class="faq-q-icon">Q</div>
           <div class="faq-q-text">${qText}</div>
-          <div class="faq-toggle">⌄</div>
+          <div class="faq-toggle">\u2304</div>
         </div>
         <div class="faq-answer">
           ${item.a}
@@ -1039,24 +1038,20 @@ function renderMain() {
 
   main.innerHTML = html;
 
-  // Count
   const allCount = CATEGORIES.reduce((n, c) => n + c.items.length, 0);
   document.getElementById('count').textContent = q ? `${totalShown}件 / ${allCount}件` : `全${allCount}件`;
 
-  // Toggle
-  main.querySelectorAll('.faq-question').forEach(q => {
-    q.addEventListener('click', () => {
-      q.closest('.faq-card').classList.toggle('open');
+  main.querySelectorAll('.faq-question').forEach(el => {
+    el.addEventListener('click', () => {
+      el.closest('.faq-card').classList.toggle('open');
     });
   });
 
-  // Auto-open if searching
   if (searchQuery.trim()) {
     main.querySelectorAll('.faq-card').forEach(c => c.classList.add('open'));
   }
 }
 
-// Search
 let searchTimer;
 document.getElementById('search').addEventListener('input', e => {
   clearTimeout(searchTimer);
@@ -1066,7 +1061,6 @@ document.getElementById('search').addEventListener('input', e => {
   }, 180);
 });
 
-// Mobile menu
 document.getElementById('menuBtn').addEventListener('click', () => {
   document.getElementById('sidebar').classList.toggle('open');
 });
