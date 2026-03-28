@@ -774,7 +774,7 @@ const CATEGORIES = [
   <li><strong>ショートカットのプロパティからICOファイルを適用する</strong></li>
 </ol>
 <div class="note">💡 各ステップの詳細は、それぞれの個別Q&Aを参照してください。</div>`,
-        tags: ["Windows", "Illustrator", "アイコン", "ICO"]
+        tags: ["Windows", "ショートカット", "アイコン変更"]
       },
       {
         q: "Illustratorでアイコン用のPNGを書き出すには？",
@@ -819,9 +819,91 @@ const CATEGORIES = [
         tags: ["Windows", "ショートカット", "アイコン変更"]
       }
     ]
+  },
+  {
+    id: "github-pages",
+    name: "GitHub Pages — Web公開・共有",
+    color: "#1f2328",
+    items: [
+      {
+        q: "作ったHTMLファイルをURLで友達に共有したい",
+        a: `<p>GitHub Pagesを使うと、HTMLファイルを無料でWeb公開してURLで共有できます。大きく4ステップです。</p>
+<ol>
+  <li><strong>GitHubアカウントを作成する</strong>（無料）</li>
+  <li><strong>リポジトリ（フォルダ）を作成する</strong></li>
+  <li><strong>HTMLファイルをアップロードし、index.htmlにリネームする</strong></li>
+  <li><strong>GitHub Pagesを有効にする</strong></li>
+</ol>
+<div class="note">💡 各ステップの詳細は、それぞれの個別Q&Aを参照してください。</div>`,
+        tags: ["GitHub", "公開", "共有", "URL"]
+      },
+      {
+        q: "GitHubのリポジトリ作成時の注意点は？",
+        a: `<table>
+  <tr><th>項目</th><th>設定内容</th></tr>
+  <tr><td>リポジトリ名</td><td>任意（例：<code>my-faq</code>）</td></tr>
+  <tr><td><strong>表示設定</strong></td><td><strong>「パブリック」を選択（重要！）</strong></td></tr>
+  <tr><td>READMEを追加</td><td>オフのまま</td></tr>
+  <tr><td>.gitignore / ライセンス</td><td>なしのまま</td></tr>
+</table>
+<div class="note">⚠️ 「プライベート」のままだと友達がURLでアクセスできない。必ず「パブリック」を選ぶこと。</div>`,
+        tags: ["GitHub", "リポジトリ", "パブリック"]
+      },
+      {
+        q: "HTMLファイルをGitHubにアップロードする手順は？",
+        a: `<ol>
+  <li>リポジトリのトップページで「<strong>既存のファイルをアップロードして</strong>」をクリック</li>
+  <li><code>faq_system.html</code> をドラッグ＆ドロップ</li>
+  <li>「<strong>変更をコミットする</strong>」ボタンをクリック → ダイアログもそのまま「変更をコミットする」</li>
+</ol>
+<p><strong>ファイル名を index.html に変更する：</strong></p>
+<ol>
+  <li>ファイル一覧で <code>faq_system.html</code> をクリック</li>
+  <li>右上の<strong>鉛筆マーク（編集ボタン）</strong>をクリック</li>
+  <li>画面上部のファイル名欄を <code>index.html</code> に書き換える</li>
+  <li>「<strong>変更をコミットする</strong>」をクリック</li>
+</ol>
+<div class="note">💡 アップロード画面ではファイル名の変更ができない。コミット後に鉛筆マークから変更する。</div>`,
+        tags: ["GitHub", "アップロード", "index.html"]
+      },
+      {
+        q: "GitHub Pagesを有効にする手順は？",
+        a: `<ol>
+  <li>リポジトリ上部の「<strong>設定（Settings）</strong>」タブをクリック</li>
+  <li>左側メニューの「<strong>ページ（Pages）</strong>」をクリック</li>
+  <li>「ビルドとデプロイ」→「支店」の「<strong>なし</strong>」ボタンをクリック</li>
+  <li><strong>「main」</strong>を選択</li>
+  <li>「<strong>保存</strong>」ボタンをクリック</li>
+</ol>
+<div class="note">💡 「GitHub PagesのソースコードがSavedされました。」と表示されれば設定完了。</div>`,
+        tags: ["GitHub Pages", "有効化", "設定"]
+      },
+      {
+        q: "公開後のURLはどこで確認できるか？",
+        a: `<p><strong>方法①：設定画面で確認</strong></p>
+<p>1〜3分後に設定（Pages）画面を <code>F5</code> で更新すると、以下のように表示される。</p>
+<p>「✅ サイトが公開されています」のリンクをクリックまたはコピーする。</p>
+<p><strong>方法②：コードタブで確認</strong></p>
+<p>リポジトリの「コード」タブ右側に「<strong>Deployments</strong>」欄が表示され、そこにもURLが載っている。</p>
+<p><strong>URLの法則：</strong></p>
+<p><code>https://[GitHubユーザー名].github.io/[リポジトリ名]/</code></p>`,
+        tags: ["GitHub Pages", "URL", "確認"]
+      },
+      {
+        q: "FAQシステムを更新したとき、公開URLに反映する方法は？",
+        a: `<ol>
+  <li>リポジトリの「コード」タブで <code>index.html</code> をクリック</li>
+  <li>右上の<strong>鉛筆マーク</strong>をクリック</li>
+  <li>右上の「<strong>...</strong>」→「<strong>ファイルを置き換える</strong>」で新しいHTMLをアップロード</li>
+  <li>「<strong>変更をコミットする</strong>」をクリック</li>
+</ol>
+<div class="note">💡 コミット後、数分で自動的にURLに反映される。</div>`,
+        tags: ["GitHub", "更新", "反映"]
+      }
+    ]
   }
 ];
-
+const LAST_UPDATED = "2026-03-28";
 let activeCategory = "all";
 let searchQuery = "";
 
