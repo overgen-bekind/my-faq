@@ -593,6 +593,48 @@ const CATEGORIES = [
   <li>プレビューを見ながら調整して「OK」</li>
 </ol>`,
         tags: ["Photoshop", "修正", "スポット修復"]
+      },
+      {
+        q: "写真に写っている人物を消したい",
+        a: `<table>
+  <tr><th>状況</th><th>おすすめの方法</th></tr>
+  <tr><td>背景が複雑（建物・木・人混みなど）</td><td><strong>生成塗りつぶし</strong>（Photoshop 2024以降）</td></tr>
+  <tr><td>背景が単純（空・壁・芝生など）</td><td><strong>コンテンツに応じた塗りつぶし</strong></td></tr>
+  <tr><td>人物が小さい・細い</td><td><strong>スポット修復ブラシ</strong></td></tr>
+</table>
+<p><strong>方法①：生成塗りつぶし（最も簡単・AI機能）</strong></p>
+<ol>
+  <li>消したい人物をなげなわツールなどで選択</li>
+  <li>選択範囲を右クリック →「<strong>生成塗りつぶし</strong>」</li>
+  <li>テキスト欄は<strong>空白のまま</strong>「生成」をクリック</li>
+  <li>複数の候補が生成されるので最適なものを選ぶ</li>
+</ol>
+<p><strong>方法②：コンテンツに応じた塗りつぶし</strong></p>
+<ol>
+  <li>なげなわツールで人物を選択（少し余白を持たせると自然になる）</li>
+  <li><strong>編集 → コンテンツに応じた塗りつぶし</strong></li>
+  <li>プレビューを確認しながら「OK」</li>
+</ol>
+<p><strong>方法③：スポット修復ブラシ</strong></p>
+<ol>
+  <li><code>J</code> キーでスポット修復ブラシツールを選択</li>
+  <li>「コンテンツに応じる」にチェック</li>
+  <li>人物の上をなぞる</li>
+</ol>`,
+        tags: ["Photoshop", "人物を消す", "生成塗りつぶし", "修正"]
+      },
+      {
+        q: "「コンテンツに応じた塗りつぶし」がグレーアウトしてアクティブにならない",
+        a: `<table>
+  <tr><th>原因</th><th>対処法</th></tr>
+  <tr><td>調整レイヤーが選択されている</td><td>レイヤーパネルで<strong>画像レイヤー</strong>を選択してから試す</td></tr>
+  <tr><td>スマートオブジェクトになっている</td><td>レイヤーを右クリック →「<strong>レイヤーをラスタライズ</strong>」してから試す</td></tr>
+  <tr><td>選択範囲がない</td><td>なげなわツールなどで対象を選択してから試す</td></tr>
+  <tr><td>16bit・32bitカラーモードになっている</td><td><strong>イメージ → モード → 8bit/チャンネル</strong> に変更してから試す</td></tr>
+  <tr><td>CMYKカラーモードになっている</td><td><strong>イメージ → モード → RGBカラー</strong> に変更してから試す</td></tr>
+</table>
+<div class="note">💡 最も多い原因は「調整レイヤーが選択されている」こと。レイヤーパネルで画像レイヤー（「レイヤー1」等）が選択されているか確認する。</div>`,
+        tags: ["Photoshop", "コンテンツに応じた塗りつぶし", "グレーアウト", "修正"]
       }
     ]
   },
@@ -682,6 +724,66 @@ const CATEGORIES = [
         tags: ["Illustrator", "パターン", "スウォッチ"]
       },
       {
+        q: "オリジナルのパターンをゼロから作成して図形に適用したい",
+        a: `<p><strong>① パターンの元になるオブジェクトを作成する</strong></p>
+<p>図形やイラストなど、パターンに使いたいオブジェクトをアートボード上に作成する。</p>
+<p><strong>② パターンとして登録する</strong></p>
+<ol>
+  <li>オブジェクトを選択した状態で <strong>オブジェクト → パターン → 作成</strong> をクリック</li>
+  <li>「パターンオプション」ダイアログが開く</li>
+  <li>以下の設定を調整する</li>
+</ol>
+<table>
+  <tr><th>設定項目</th><th>内容</th></tr>
+  <tr><td><strong>タイルの種類</strong></td><td>並べ方（グリッド・レンガ・六角形など）</td></tr>
+  <tr><td><strong>幅・高さ</strong></td><td>タイル1つのサイズ</td></tr>
+  <tr><td><strong>重なり</strong></td><td>タイル同士が重なる場合の前後関係</td></tr>
+</table>
+<ol start="4">
+  <li>プレビューを確認しながら調整</li>
+  <li>画面上部の「<strong>完了</strong>」をクリック → スウォッチパネルに登録される</li>
+</ol>
+<p><strong>③ 図形にパターンを適用する</strong></p>
+<ol>
+  <li>パターンを適用したい図形を選択</li>
+  <li><strong>スウォッチパネル</strong>に登録されたパターンをクリック</li>
+  <li>塗りにパターンが適用される</li>
+</ol>
+<div class="note">💡 スウォッチパネルのパターンを<strong>ダブルクリック</strong>すると編集モードに入り、後から修正できる。</div>`,
+        tags: ["Illustrator", "パターン", "オリジナル", "スウォッチ"]
+      },
+      {
+        q: "パターンの境目（タイルの継ぎ目）をぼかして自然に見せたい",
+        a: `<p>テクスチャ画像をパターン登録したときに継ぎ目が格子状に目立つ場合は、<strong>パターン編集モード内でぼかしを適用する</strong>のが根本的な解決策。</p>
+<ol>
+  <li>スウォッチパネルのパターンを<strong>ダブルクリック</strong>して編集モードへ</li>
+  <li>パターン内のオブジェクト（テクスチャ画像）を選択</li>
+  <li><strong>効果 → ぼかし → ぼかし（ガウス）</strong> を適用（10〜30px程度から試す）</li>
+  <li>タイルの端がぼけて継ぎ目が目立たなくなることを確認</li>
+  <li>画面上部の「<strong>完了</strong>」をクリック</li>
+</ol>
+<div class="note">💡 それでも継ぎ目が目立つ場合は、パターンオプションの<strong>「幅・高さ」を大きくする</strong>（タイルを大きくする）と継ぎ目の数が減って自然になる。</div>`,
+        tags: ["Illustrator", "パターン", "境目", "継ぎ目", "ぼかし"]
+      },
+      {
+        q: "パターンに透明になるグラデーションをかけたい",
+        a: `<p>パターンに対して直接グラデーションの透明を適用することはできない。<strong>不透明マスク</strong>を使って対応する。</p>
+<ol>
+  <li>パターンを適用したオブジェクトの上に、<strong>同じ形の図形を重ねて作成する</strong></li>
+  <li>重ねた図形に<strong>白→黒のグラデーション</strong>を設定する
+    <ul>
+      <li>白い部分 → パターンが見える</li>
+      <li>黒い部分 → パターンが透明になる</li>
+    </ul>
+  </li>
+  <li>2つのオブジェクトを<strong>両方選択する</strong>（パターンのオブジェクト＋グラデーションの図形）</li>
+  <li><strong>ウィンドウ → 透明</strong> で透明パネルを開く</li>
+  <li>透明パネル右上のメニュー →「<strong>不透明マスクを作成</strong>」をクリック</li>
+</ol>
+<div class="note">💡 透明パネルに2つのサムネイルが表示される。左がパターンのオブジェクト、右がマスク。右のサムネイルをクリックするとマスクを編集できる。編集後は左のサムネイルをクリックして元に戻す。</div>`,
+        tags: ["Illustrator", "パターン", "グラデーション", "透明", "不透明マスク"]
+      },
+      {
         q: "テキストエリアにある青い点（中央ハンドル）は移動できるか",
         a: `<p><strong>できます。</strong>選択ツール（<code>V</code>）でドラッグすることでテキストエリアのサイズを変更できます。</p>
 <table>
@@ -691,6 +793,34 @@ const CATEGORIES = [
 </table>
 <div class="note">💡 青い点が小さな四角形（□）の場合は「アウトポート」で、テキストがあふれているサイン。テキストエリアを広げることで解決する。</div>`,
         tags: ["Illustrator", "テキスト", "ハンドル"]
+      }
+    ]
+  },
+  {
+    id: "illustrator-artboard",
+    name: "Illustrator — アートボード操作",
+    color: "#c2410c",
+    items: [
+      {
+        q: "アートボード１のオブジェクトをアートボード２の同じ位置に貼り付けたい",
+        a: `<ol>
+  <li>アートボード１のオブジェクトを選択して <code>Ctrl + C</code> でコピー</li>
+  <li>アートボード２をクリックしてアクティブにする</li>
+  <li><strong>編集 → 同じ位置にペースト</strong>（<code>Ctrl + Shift + V</code>）</li>
+</ol>
+<div class="note">💡 通常の <code>Ctrl + V</code> は画面中央に貼り付けられるため位置がずれる。同じ位置に貼り付けたい場合は必ず <code>Ctrl + Shift + V</code> を使う。</div>`,
+        tags: ["Illustrator", "アートボード", "コピー", "貼り付け"]
+      },
+      {
+        q: "同じ位置にペースト（Ctrl+Shift+V）ができない・位置がずれる場合の原因と対処法",
+        a: `<table>
+  <tr><th>原因</th><th>対処法</th></tr>
+  <tr><td>アートボードのサイズが異なる</td><td>座標は同じだが、アートボード基準の相対位置が変わるため見た目上ずれて見える</td></tr>
+  <tr><td>グループ・クリッピングマスク内のオブジェクトを個別にコピーした</td><td>グループごとコピーすると解決することが多い</td></tr>
+  <tr><td>貼り付け先のアートボードがアクティブになっていない</td><td>オブジェクトのない余白部分をクリックしてアクティブにする。<strong>ウィンドウ → アートボード</strong>パネルで選択状態を確認できる</td></tr>
+  <tr><td><strong>複数オブジェクトを同時にコピーした</strong></td><td>位置がずれたり意図しない場所に貼り付けられることがある。グループ化（<code>Ctrl + G</code>）してからコピー → 貼り付け後にグループ解除（<code>Ctrl + Shift + G</code>）で対処する</td></tr>
+</table>`,
+        tags: ["Illustrator", "アートボード", "貼り付け", "位置ずれ"]
       }
     ]
   },
@@ -764,6 +894,27 @@ const CATEGORIES = [
     ]
   },
   {
+    id: "windows-screenshot",
+    name: "Windows — スクリーンショット",
+    color: "#0369a1",
+    items: [
+      {
+        q: "スクリーンショットはどこに保存されるか",
+        a: `<table>
+  <tr><th>操作方法</th><th>保存場所</th></tr>
+  <tr><td><code>PrintScreen</code></td><td>クリップボードのみ（自動保存されない）</td></tr>
+  <tr><td><code>Win + PrintScreen</code></td><td>ピクチャ → スクリーンショット フォルダに<strong>自動保存</strong></td></tr>
+  <tr><td><code>Win + Shift + S</code>（切り取り＆スケッチ）</td><td>クリップボードのみ。通知をクリックして手動保存</td></tr>
+  <tr><td>Snipping Tool（スニッピングツール）</td><td>保存ダイアログで任意の場所に保存</td></tr>
+</table>
+<p><strong>自動保存フォルダのパス：</strong></p>
+<p><code>C:\Users\[ユーザー名]\Pictures\Screenshots</code></p>
+<div class="note">💡 エクスプローラーを開いて左側の「ピクチャ」→「スクリーンショット」フォルダでも確認できる。</div>`,
+        tags: ["Windows", "スクリーンショット", "保存場所", "PrintScreen"]
+      }
+    ]
+  },
+  {
     id: "windows-icon",
     name: "Windows — アイコン作成・変更",
     color: "#0078d4",
@@ -820,6 +971,42 @@ const CATEGORIES = [
 </ol>
 <div class="note">💡 アイコンがすぐに反映されない場合は、デスクトップを右クリック →「表示」→「更新」またはPC再起動で反映される。</div>`,
         tags: ["Windows", "ショートカット", "アイコン変更"]
+      }
+    ]
+  },
+  {
+    id: "premiere-timecode",
+    name: "Premiere Pro — タイムコード表示",
+    color: "#7c2d8e",
+    items: [
+      {
+        q: "動画に撮影時間（タイムコード）を常に表示したい（Premiere Pro 2025）",
+        a: `<p><strong>クリアビデオ</strong>にエフェクトを適用する方法で対応する。</p>
+<p><strong>① クリアビデオを作成してタイムラインに配置</strong></p>
+<ol>
+  <li>プロジェクトパネル右下の<strong>紙がめくれたアイコン</strong>をクリック</li>
+  <li>「<strong>クリアビデオ</strong>」を選択 → OK</li>
+  <li>作成されたクリアビデオをタイムライン上（動画クリップの上のトラック）に配置</li>
+</ol>
+<p><strong>② メタデータとタイムコードの焼き込みエフェクトを適用</strong></p>
+<ol>
+  <li>エフェクトパネルで <strong>ビデオエフェクト → ビデオ → メタデータとタイムコードの焼き込み</strong> を検索</li>
+  <li>クリアビデオにドラッグ＆ドロップ</li>
+</ol>
+<p><strong>③ エフェクトコントロールで設定を調整</strong></p>
+<ol>
+  <li>「<strong>サイズ</strong>」で文字の大きさを変更</li>
+  <li>「<strong>位置</strong>」で表示場所を調整</li>
+  <li>「<strong>ソースタイムコード</strong>」→「<strong>タイムコード生成</strong>」に変更</li>
+  <li>黒い背景を消したい場合は「<strong>不透明度</strong>」を <strong>0%</strong> に設定</li>
+</ol>
+<p><strong>④ ネスト化して位置・サイズを自由に変更</strong></p>
+<ol>
+  <li>タイムライン上のクリアビデオを右クリック →「<strong>ネスト</strong>」</li>
+  <li>ネスト化後はプログラムモニター上でサイズ・位置を自由に変更できる</li>
+</ol>
+<div class="note">💡 調整レイヤーではなく「クリアビデオ」を使うのがPremiere Pro 2025のポイント。タイムコードエフェクトはPremiere Pro 2025では廃止されているため、この方法で代替する。</div>`,
+        tags: ["Premiere Pro", "タイムコード", "時間表示", "クリアビデオ"]
       }
     ]
   },
